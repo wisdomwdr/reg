@@ -1,0 +1,1 @@
+// JS: Display splash, ad banner, form load, save data, check lock status
