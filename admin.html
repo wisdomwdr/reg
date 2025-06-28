@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="admin.js"></script>
+</head>
+<body>
+  <div id="admin-section" class="hidden">
+    <h2>👑 Admin Panel</h2>
+
+    <section>
+      <h3>📢 Ad Message</h3>
+      <input type="text" id="adText" placeholder="Enter ad message">
+      <button onclick="saveAd()">Save Ad</button>
+    </section>
+
+    <section>
+      <h3>🎯 Programs</h3>
+      <ul id="programList"></ul>
+      <input type="text" id="newProgram" placeholder="New Program Name">
+      <button onclick="addProgram()">Add Program</button>
+    </section>
+
+    <section>
+      <h3>🏫 CRE Centers</h3>
+      <ul id="centerList"></ul>
+      <input type="text" id="newCenter" placeholder="New CRE Center">
+      <button onclick="addCenter()">Add Center</button>
+    </section>
+
+    <button onclick="clearData()">🗑 Reset All Data</button>
+  </div>
+</body>
+</html>
