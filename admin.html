@@ -1,37 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - WisdomWdr</title>
+  <link rel="stylesheet" href="admin.css" />
   <script defer src="admin.js"></script>
 </head>
 <body>
-  <div id="admin-section" class="hidden">
-    <h2>👑 Admin Panel</h2>
+  <header>
+    <img src="wisdomwandoor.png" id="main-logo" alt="Logo" />
+    <h2>Admin Panel</h2>
+  </header>
 
-    <section>
-      <h3>📢 Ad Message</h3>
-      <input type="text" id="adText" placeholder="Enter ad message">
-      <button onclick="saveAd()">Save Ad</button>
-    </section>
+  <section id="ads">
+    <h3>Add Advertisement</h3>
+    <textarea id="adMessage" placeholder="Type your message..."></textarea><br>
+    <input type="file" id="adMedia" accept="image/*,video/*"><br>
+    <button onclick="postAd()">Post</button>
+    <div id="preview"></div>
+  </section>
 
-    <section>
-      <h3>🎯 Programs</h3>
-      <ul id="programList"></ul>
-      <input type="text" id="newProgram" placeholder="New Program Name">
-      <button onclick="addProgram()">Add Program</button>
-    </section>
+  <hr>
 
-    <section>
-      <h3>🏫 CRE Centers</h3>
-      <ul id="centerList"></ul>
-      <input type="text" id="newCenter" placeholder="New CRE Center">
-      <button onclick="addCenter()">Add Center</button>
-    </section>
+  <section id="forms">
+    <h3>Manage Program Forms</h3>
+    <button onclick="document.getElementById('formEditSection').style.display='block'">Edit CRE Form</button>
+    <div id="formEditSection" style="display:none;">
+      <textarea id="formCode" style="width:100%;height:150px;">&lt;form&gt;&lt;input placeholder='Name'&gt;&lt;/form&gt;</textarea>
+      <button onclick="applyForm()">Apply</button>
+    </div>
+    <div id="formContainer"></div>
+  </section>
 
-    <button onclick="clearData()">🗑 Reset All Data</button>
-  </div>
+  <hr>
+
+  <section id="lock">
+    <h3>Lock/Unlock Program</h3>
+    <button onclick="toggleLock('cre')">🔒 Lock/Unlock CRE</button>
+    <div id="creForm">
+      <p>This is CRE registration form.</p>
+    </div>
+  </section>
+
+  <hr>
+
+  <section id="excel">
+    <h3>Export Registration Data</h3>
+    <button onclick="downloadExcel()">Download Excel</button>
+  </section>
 </body>
 </html>

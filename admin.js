@@ -1,94 +1,45 @@
-window.onload = () => {
-  const password = prompt("Enter admin password:");
-  if (password !== "1234") {
-    alert("Access denied");
-    window.close();
-    return;
+function postAd() {
+  const msg = document.getElementById("adMessage").value;
+  const fileInput = document.getElementById("adMedia");
+  const file = fileInput.files[0];
+  let preview = document.getElementById("preview");
+  preview.innerHTML = `<h4>${msg}</h4>`;
+  if (file && file.type.startsWith("image")) {
+    preview.innerHTML += `<img src="${URL.createObjectURL(file)}" width="200">`;
+  } else if (file && file.type.startsWith("video")) {
+    preview.innerHTML += `<video src="${URL.createObjectURL(file)}" controls width="250"></video>`;
   }
-
-  document.getElementById('admin-section').classList.remove('hidden');
-  loadData();
-};
-
-function saveAd() {
-  const ad = document.getElementById("adText").value;
-  localStorage.setItem("ad", ad);
-  alert("Ad updated!");
 }
 
-function addProgram() {
-  const name = document.getElementById("newProgram").value;
-  if (!name) return;
-  const programs = JSON.parse(localStorage.getItem("programs") || "[]");
-  programs.push({ name, locked: false });
-  localStorage.setItem("programs", JSON.stringify(programs));
-  document.getElementById("newProgram").value = "";
-  loadData();
+function applyForm() {
+  const code = document.getElementById("formCode").value;
+  document.getElementById("formContainer").innerHTML = code;
 }
 
-function addCenter() {
-  const name = document.getElementById("newCenter").value;
-  if (!name) return;
-  const centers = JSON.parse(localStorage.getItem("centers") || "[]");
-  centers.push(name);
-  localStorage.setItem("centers", JSON.stringify(centers));
-  document.getElementById("newCenter").value = "";
-  loadData();
-}
-
-function toggleLock(index) {
-  const programs = JSON.parse(localStorage.getItem("programs") || "[]");
-  programs[index].locked = !programs[index].locked;
-  localStorage.setItem("programs", JSON.stringify(programs));
-  loadData();
-}
-
-function deleteProgram(index) {
-  const programs = JSON.parse(localStorage.getItem("programs") || "[]");
-  programs.splice(index, 1);
-  localStorage.setItem("programs", JSON.stringify(programs));
-  loadData();
-}
-
-function deleteCenter(index) {
-  const centers = JSON.parse(localStorage.getItem("centers") || "[]");
-  centers.splice(index, 1);
-  localStorage.setItem("centers", JSON.stringify(centers));
-  loadData();
-}
-
-function loadData() {
-  // Load Ad
-  document.getElementById("adText").value = localStorage.getItem("ad") || "";
-
-  // Programs
-  const programList = document.getElementById("programList");
-  const programs = JSON.parse(localStorage.getItem("programs") || "[]");
-  programList.innerHTML = "";
-  programs.forEach((prog, i) => {
-    programList.innerHTML += `<li>
-      ${prog.name} - <b>${prog.locked ? "🔒" : "✅"}</b>
-      <span>
-        <button onclick="toggleLock(${i})">Lock/Unlock</button>
-        <button onclick="deleteProgram(${i})">❌</button>
-      </span>
-    </li>`;
-  });
-
-  // Centers
-  const centerList = document.getElementById("centerList");
-  const centers = JSON.parse(localStorage.getItem("centers") || "[]");
-  centerList.innerHTML = "";
-  centers.forEach((center, i) => {
-    centerList.innerHTML += `<li>${center} <button onclick="deleteCenter(${i})">❌</button></li>`;
-  });
-}
-
-function clearData() {
-  if (confirm("Are you sure you want to reset all admin data?")) {
-    localStorage.removeItem("programs");
-    localStorage.removeItem("centers");
-    localStorage.removeItem("ad");
-    loadData();
+let lockState = {};
+function toggleLock(id) {
+  const form = document.getElementById(id + 'Form');
+  if (!lockState[id]) {
+    form.style.display = 'none';
+    lockState[id] = true;
+  } else {
+    form.style.display = 'block';
+    lockState[id] = false;
   }
+}
+
+const data = [
+  { name: "Rahul", age: 14, phone: "98765" },
+  { name: "Amina", age: 13, phone: "87654" }
+];
+function downloadExcel() {
+  let csv = "Name,Age,Phone\n";
+  data.forEach(item => {
+    csv += `${item.name},${item.age},${item.phone}\n`;
+  });
+  const blob = new Blob([csv], { type: "text/csv" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "registration_data.csv";
+  link.click();
 }
