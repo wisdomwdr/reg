@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel - WisdomWdr</title>
+  <title>Admin Panel - Full</title>
   <link rel="stylesheet" href="admin.css" />
   <script defer src="admin.js"></script>
 </head>
@@ -23,24 +23,37 @@
 
   <hr>
 
+  <section id="programs">
+    <h3>Manage Programs</h3>
+    <input id="newProgram" placeholder="Add New Program Name" />
+    <button onclick="addProgram()">Add Program</button>
+    <ul id="programList"></ul>
+  </section>
+
+  <hr>
+
+  <section id="centers">
+    <h3>Manage CRE Centers</h3>
+    <input id="newCenter" placeholder="Add CRE Center" />
+    <button onclick="addCenter()">Add Center</button>
+    <ul id="centerList"></ul>
+  </section>
+
+  <hr>
+
   <section id="forms">
-    <h3>Manage Program Forms</h3>
-    <button onclick="document.getElementById('formEditSection').style.display='block'">Edit CRE Form</button>
-    <div id="formEditSection" style="display:none;">
-      <textarea id="formCode" style="width:100%;height:150px;">&lt;form&gt;&lt;input placeholder='Name'&gt;&lt;/form&gt;</textarea>
-      <button onclick="applyForm()">Apply</button>
-    </div>
-    <div id="formContainer"></div>
+    <h3>Edit Form Code</h3>
+    <textarea id="formCode" style="width:100%;height:150px;"></textarea><br>
+    <button onclick="saveForm()">Save Form Template</button>
   </section>
 
   <hr>
 
   <section id="lock">
     <h3>Lock/Unlock Program</h3>
-    <button onclick="toggleLock('cre')">🔒 Lock/Unlock CRE</button>
-    <div id="creForm">
-      <p>This is CRE registration form.</p>
-    </div>
+    <select id="lockSelect"></select>
+    <button onclick="toggleProgramLock()">🔒 Toggle Lock</button>
+    <p id="lockStatus"></p>
   </section>
 
   <hr>

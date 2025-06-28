@@ -1,45 +1,98 @@
+// Advertisement
 function postAd() {
   const msg = document.getElementById("adMessage").value;
-  const fileInput = document.getElementById("adMedia");
-  const file = fileInput.files[0];
+  const file = document.getElementById("adMedia").files[0];
   let preview = document.getElementById("preview");
   preview.innerHTML = `<h4>${msg}</h4>`;
-  if (file && file.type.startsWith("image")) {
-    preview.innerHTML += `<img src="${URL.createObjectURL(file)}" width="200">`;
-  } else if (file && file.type.startsWith("video")) {
-    preview.innerHTML += `<video src="${URL.createObjectURL(file)}" controls width="250"></video>`;
+  if (file) {
+    const url = URL.createObjectURL(file);
+    if (file.type.startsWith("image")) {
+      preview.innerHTML += `<img src="\${url}" width="200">`;
+    } else if (file.type.startsWith("video")) {
+      preview.innerHTML += `<video src="\${url}" controls width="250"></video>`;
+    }
   }
 }
 
-function applyForm() {
+// Programs
+function addProgram() {
+  const val = document.getElementById("newProgram").value.trim();
+  if (!val) return;
+  let programs = JSON.parse(localStorage.getItem("programs") || "[]");
+  programs.push(val);
+  localStorage.setItem("programs", JSON.stringify(programs));
+  renderPrograms();
+}
+function renderPrograms() {
+  const list = document.getElementById("programList");
+  const select = document.getElementById("lockSelect");
+  list.innerHTML = "";
+  select.innerHTML = "";
+  const programs = JSON.parse(localStorage.getItem("programs") || "[]");
+  programs.forEach(p => {
+    const li = document.createElement("li");
+    li.textContent = p;
+    list.appendChild(li);
+    const opt = document.createElement("option");
+    opt.value = opt.textContent = p;
+    select.appendChild(opt);
+  });
+}
+
+// Centers
+function addCenter() {
+  const val = document.getElementById("newCenter").value.trim();
+  if (!val) return;
+  let centers = JSON.parse(localStorage.getItem("centers") || "[]");
+  centers.push(val);
+  localStorage.setItem("centers", JSON.stringify(centers));
+  renderCenters();
+}
+function renderCenters() {
+  const list = document.getElementById("centerList");
+  list.innerHTML = "";
+  const centers = JSON.parse(localStorage.getItem("centers") || "[]");
+  centers.forEach(c => {
+    const li = document.createElement("li");
+    li.textContent = c;
+    list.appendChild(li);
+  });
+}
+
+// Form Save
+function saveForm() {
   const code = document.getElementById("formCode").value;
-  document.getElementById("formContainer").innerHTML = code;
+  localStorage.setItem("formTemplate", code);
+  alert("Form saved!");
 }
 
-let lockState = {};
-function toggleLock(id) {
-  const form = document.getElementById(id + 'Form');
-  if (!lockState[id]) {
-    form.style.display = 'none';
-    lockState[id] = true;
-  } else {
-    form.style.display = 'block';
-    lockState[id] = false;
-  }
+// Lock/Unlock
+function toggleProgramLock() {
+  const prog = document.getElementById("lockSelect").value;
+  let lock = JSON.parse(localStorage.getItem("lockedPrograms") || "{}");
+  lock[prog] = !lock[prog];
+  localStorage.setItem("lockedPrograms", JSON.stringify(lock));
+  document.getElementById("lockStatus").innerText = lock[prog] ? "Locked" : "Unlocked";
 }
 
-const data = [
-  { name: "Rahul", age: 14, phone: "98765" },
-  { name: "Amina", age: 13, phone: "87654" }
-];
+// Excel export (dummy)
 function downloadExcel() {
-  let csv = "Name,Age,Phone\n";
-  data.forEach(item => {
-    csv += `${item.name},${item.age},${item.phone}\n`;
+  let data = [
+    { name: "Aliya", age: 15, phone: "99999", place: "Town" },
+    { name: "Rahul", age: 14, phone: "88888", place: "City" }
+  ];
+  let csv = "Name,Age,Phone,Place\n";
+  data.forEach(d => {
+    csv += `${d.name},${d.age},${d.phone},${d.place}\n`;
   });
   const blob = new Blob([csv], { type: "text/csv" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "registration_data.csv";
-  link.click();
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "registrations.csv";
+  a.click();
 }
+
+window.onload = function() {
+  renderPrograms();
+  renderCenters();
+};
