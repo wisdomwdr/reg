@@ -1,1 +1,50 @@
-/* Final responsive CSS for admin panel */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  padding: 20px;
+}
+
+h2, h3 {
+  color: #004d26;
+}
+
+#login, #admin-panel {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input, textarea, select {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #00804b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+button:hover {
+  background-color: #005f35;
+}
+
+#lockList button,
+#centerList button {
+  margin-left: 10px;
+  background-color: #444;
+}
+
+textarea {
+  height: 100px;
+}

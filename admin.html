@@ -1,1 +1,44 @@
-<!-- Final admin panel with full features -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div id="login">
+  <h2>Admin Login</h2>
+  <input type="password" id="admin-pass" placeholder="Enter Password">
+  <button onclick="checkLogin()">Login</button>
+</div>
+
+<div id="admin-panel" style="display: none;">
+  <h2>Welcome, Admin</h2>
+
+  <h3>Ad Message</h3>
+  <textarea id="adMessage"></textarea>
+  <button onclick="saveAd()">Save Ad</button>
+
+  <h3>Programs</h3>
+  <input type="text" id="programName" placeholder="Program Name">
+  <textarea id="formHTML" placeholder="Enter form HTML or use default..."></textarea>
+  <button onclick="addProgram()">Add / Update Program</button>
+
+  <h3>Lock / Unlock</h3>
+  <div id="lockList"></div>
+
+  <h3>CRE Centers</h3>
+  <input type="text" id="creCenter" placeholder="Enter Center">
+  <button onclick="addCenter()">Add Center</button>
+  <div id="centerList"></div>
+
+  <h3>Download Data</h3>
+  <select id="programSelect"></select>
+  <button onclick="downloadExcel()">Download Excel</button>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
