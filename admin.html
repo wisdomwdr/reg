@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel - Full</title>
+  <title>Admin Panel</title>
   <link rel="stylesheet" href="admin.css" />
   <script defer src="admin.js"></script>
 </head>
@@ -13,54 +13,31 @@
     <h2>Admin Panel</h2>
   </header>
 
-  <section id="ads">
-    <h3>Add Advertisement</h3>
-    <textarea id="adMessage" placeholder="Type your message..."></textarea><br>
-    <input type="file" id="adMedia" accept="image/*,video/*"><br>
-    <button onclick="postAd()">Post</button>
-    <div id="preview"></div>
-  </section>
-
-  <hr>
-
-  <section id="programs">
-    <h3>Manage Programs</h3>
-    <input id="newProgram" placeholder="Add New Program Name" />
-    <button onclick="addProgram()">Add Program</button>
+  <section>
+    <h3>Add Program</h3>
+    <input type="text" id="programName" placeholder="Enter Program Name" />
+    <button onclick="addProgram()">Add</button>
     <ul id="programList"></ul>
   </section>
 
-  <hr>
-
-  <section id="centers">
-    <h3>Manage CRE Centers</h3>
-    <input id="newCenter" placeholder="Add CRE Center" />
-    <button onclick="addCenter()">Add Center</button>
-    <ul id="centerList"></ul>
+  <section>
+    <h3>Edit Program Form</h3>
+    <select id="programSelect" onchange="loadForm()"></select><br>
+    <textarea id="formEditor" placeholder="Form HTML here..."></textarea><br>
+    <button onclick="saveForm()">Save Form</button>
   </section>
 
-  <hr>
-
-  <section id="forms">
-    <h3>Edit Form Code</h3>
-    <textarea id="formCode" style="width:100%;height:150px;"></textarea><br>
-    <button onclick="saveForm()">Save Form Template</button>
+  <section>
+    <h3>Ad Banner</h3>
+    <textarea id="adText" placeholder="Ad message..."></textarea><br>
+    <button onclick="saveAd()">Save Ad</button>
   </section>
 
-  <hr>
-
-  <section id="lock">
-    <h3>Lock/Unlock Program</h3>
-    <select id="lockSelect"></select>
-    <button onclick="toggleProgramLock()">🔒 Toggle Lock</button>
+  <section>
+    <h3>Lock Program</h3>
+    <select id="lockSelect" onchange="showLockStatus()"></select>
+    <button onclick="toggleLock()">🔒 Toggle Lock</button>
     <p id="lockStatus"></p>
-  </section>
-
-  <hr>
-
-  <section id="excel">
-    <h3>Export Registration Data</h3>
-    <button onclick="downloadExcel()">Download Excel</button>
   </section>
 </body>
 </html>

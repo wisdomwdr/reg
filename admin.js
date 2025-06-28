@@ -1,98 +1,60 @@
-// Advertisement
-function postAd() {
-  const msg = document.getElementById("adMessage").value;
-  const file = document.getElementById("adMedia").files[0];
-  let preview = document.getElementById("preview");
-  preview.innerHTML = `<h4>${msg}</h4>`;
-  if (file) {
-    const url = URL.createObjectURL(file);
-    if (file.type.startsWith("image")) {
-      preview.innerHTML += `<img src="\${url}" width="200">`;
-    } else if (file.type.startsWith("video")) {
-      preview.innerHTML += `<video src="\${url}" controls width="250"></video>`;
-    }
-  }
-}
-
-// Programs
 function addProgram() {
-  const val = document.getElementById("newProgram").value.trim();
-  if (!val) return;
+  const name = document.getElementById("programName").value.trim();
+  if (!name) return;
   let programs = JSON.parse(localStorage.getItem("programs") || "[]");
-  programs.push(val);
+  if (!programs.includes(name)) programs.push(name);
   localStorage.setItem("programs", JSON.stringify(programs));
   renderPrograms();
 }
+
 function renderPrograms() {
   const list = document.getElementById("programList");
-  const select = document.getElementById("lockSelect");
+  const select = document.getElementById("programSelect");
+  const lockSelect = document.getElementById("lockSelect");
   list.innerHTML = "";
   select.innerHTML = "";
+  lockSelect.innerHTML = "";
   const programs = JSON.parse(localStorage.getItem("programs") || "[]");
   programs.forEach(p => {
-    const li = document.createElement("li");
-    li.textContent = p;
-    list.appendChild(li);
-    const opt = document.createElement("option");
-    opt.value = opt.textContent = p;
-    select.appendChild(opt);
+    list.innerHTML += `<li>${p}</li>`;
+    select.innerHTML += `<option value="${p}">${p}</option>`;
+    lockSelect.innerHTML += `<option value="${p}">${p}</option>`;
   });
 }
 
-// Centers
-function addCenter() {
-  const val = document.getElementById("newCenter").value.trim();
-  if (!val) return;
-  let centers = JSON.parse(localStorage.getItem("centers") || "[]");
-  centers.push(val);
-  localStorage.setItem("centers", JSON.stringify(centers));
-  renderCenters();
-}
-function renderCenters() {
-  const list = document.getElementById("centerList");
-  list.innerHTML = "";
-  const centers = JSON.parse(localStorage.getItem("centers") || "[]");
-  centers.forEach(c => {
-    const li = document.createElement("li");
-    li.textContent = c;
-    list.appendChild(li);
-  });
-}
-
-// Form Save
 function saveForm() {
-  const code = document.getElementById("formCode").value;
-  localStorage.setItem("formTemplate", code);
+  const prog = document.getElementById("programSelect").value;
+  const code = document.getElementById("formEditor").value;
+  let forms = JSON.parse(localStorage.getItem("forms") || "{}");
+  forms[prog] = code;
+  localStorage.setItem("forms", JSON.stringify(forms));
   alert("Form saved!");
 }
 
-// Lock/Unlock
-function toggleProgramLock() {
+function loadForm() {
+  const prog = document.getElementById("programSelect").value;
+  let forms = JSON.parse(localStorage.getItem("forms") || "{}");
+  document.getElementById("formEditor").value = forms[prog] || "";
+}
+
+function saveAd() {
+  const msg = document.getElementById("adText").value;
+  localStorage.setItem("adText", msg);
+  alert("Ad saved!");
+}
+
+function toggleLock() {
   const prog = document.getElementById("lockSelect").value;
-  let lock = JSON.parse(localStorage.getItem("lockedPrograms") || "{}");
+  let lock = JSON.parse(localStorage.getItem("locked") || "{}");
   lock[prog] = !lock[prog];
-  localStorage.setItem("lockedPrograms", JSON.stringify(lock));
+  localStorage.setItem("locked", JSON.stringify(lock));
+  showLockStatus();
+}
+
+function showLockStatus() {
+  const prog = document.getElementById("lockSelect").value;
+  let lock = JSON.parse(localStorage.getItem("locked") || "{}");
   document.getElementById("lockStatus").innerText = lock[prog] ? "Locked" : "Unlocked";
 }
 
-// Excel export (dummy)
-function downloadExcel() {
-  let data = [
-    { name: "Aliya", age: 15, phone: "99999", place: "Town" },
-    { name: "Rahul", age: 14, phone: "88888", place: "City" }
-  ];
-  let csv = "Name,Age,Phone,Place\n";
-  data.forEach(d => {
-    csv += `${d.name},${d.age},${d.phone},${d.place}\n`;
-  });
-  const blob = new Blob([csv], { type: "text/csv" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "registrations.csv";
-  a.click();
-}
-
-window.onload = function() {
-  renderPrograms();
-  renderCenters();
-};
+window.onload = renderPrograms;
